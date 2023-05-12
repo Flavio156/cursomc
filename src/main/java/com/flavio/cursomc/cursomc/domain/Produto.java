@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,8 +24,12 @@ public class Produto  implements Serializable {
     private String nome;
     private Double preco;
 
+    @JsonBackReference
     @ManyToMany
-    @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+    @JoinTable(name = "PRODUTO_CATEGORIA", 
+    joinColumns = @JoinColumn(name = "produto_id"),
+     inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+     
     private List<Categoria> categorias = new ArrayList<>();
 
     public Produto(){
@@ -72,20 +78,12 @@ public class Produto  implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
             return false;
-        Categoria other = (Categoria) obj;
+        Produto other = (Produto) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -93,8 +91,11 @@ public class Produto  implements Serializable {
             return false;
         return true;
     }
+  
+
+   }
 
     
 
    
-}
+
